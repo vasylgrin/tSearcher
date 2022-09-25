@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="tSearcher.Views.HomeUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:tSearcher.Views" xmlns:viewmodels="clr-namespace:tSearcher.ViewModels"
+             mc:Ignorable="d" 
+             Height="300" Width="800">
+    <UserControl.DataContext>
+        <viewmodels:HomeVM/>
+    </UserControl.DataContext>
+
+    <Grid Background="White">
+        <ListBox ItemsSource="{Binding Tokens}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Width="800">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding Number}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding FullName}"/>
+                        <TextBlock Grid.Column="2" Text="{Binding Symbol}"/>
+                        <TextBlock Grid.Column="3" Text="{Binding Price}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Button Content="Button" 
+                HorizontalAlignment="Left" 
+                Margin="586,238,0,0" 
+                VerticalAlignment="Top"
+                Height="20"
+                Width="184"
+                Command="{Binding UpdateTopTokensButton}"/>
+    </Grid>
+</UserControl>
