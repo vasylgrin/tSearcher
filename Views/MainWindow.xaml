@@ -46,7 +46,8 @@
                      VerticalAlignment="Center" 
                      Height="40" 
                      Width="180"
-                     Grid.Column="2"/>
+                     Grid.Column="2"
+                     Command="{Binding ConvertButton}"/>
 
         <RadioButton Content="Options" 
                      HorizontalAlignment="Center" 

@@ -1,7 +1,6 @@
 ﻿using MyCryptoApp.Models;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using tSearcher.Controller;
 using tSearcher.Models;
 
 namespace tSearcher.ViewModels
@@ -22,7 +21,7 @@ namespace tSearcher.ViewModels
 
         #endregion
 
-        JsonController jsonController = new();
+        JsonModel jsonController = new();
 
         public ICommand SearchButton
         {
