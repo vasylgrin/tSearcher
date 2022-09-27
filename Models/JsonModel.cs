@@ -55,7 +55,7 @@ namespace tSearcher.Models
             return markets;
         }
 
-        private JToken GetRequest(string adress)
+        public JToken GetRequest(string adress)
         {
             string Response = "";
             HttpWebRequest? request = WebRequest.Create(adress) as HttpWebRequest;

@@ -3,51 +3,110 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:tSearcher.Views" xmlns:viewmodels="clr-namespace:tSearcher.ViewModels"
+             xmlns:viewmodels="clr-namespace:tSearcher.ViewModels"
+             xmlns:lcv="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d" 
              Height="300" Width="800">
     <UserControl.DataContext>
         <viewmodels:ConvertVM/>
     </UserControl.DataContext>
-    
-    <Grid Background="#FF00FF27">
-        
-        <Button Content="Button" 
-                HorizontalAlignment="Left" 
-                Margin="439,10,0,0" 
-                VerticalAlignment="Top"
-                Width="87"
-                Command="{Binding ConvertToken}"/>
-        
-        <TextBlock 
-            HorizontalAlignment="Left" 
-            Margin="564,10,0,0" 
-            TextWrapping="Wrap" 
-            Text="{Binding PrintConvertToken}" 
-            VerticalAlignment="Top" 
-            Width="226" 
-            Height="20"/>
-        
-        <TextBox HorizontalAlignment="Left" 
-                 Margin="10,10,0,0" 
-                 TextWrapping="Wrap" 
-                 Text="{Binding FirstToken}" 
-                 VerticalAlignment="Top" 
-                 Width="116"/>
-        
-        <TextBox HorizontalAlignment="Left" 
-                 Margin="131,10,0,0" 
-                 TextWrapping="Wrap" 
-                 Text="{Binding FirstValueToken}" 
-                 VerticalAlignment="Top" 
-                 Width="60"/>
-        
-        <TextBox HorizontalAlignment="Left" 
-                 Margin="280,10,0,0" 
-                 TextWrapping="Wrap" 
-                 Text="{Binding SecondToken}" 
-                 VerticalAlignment="Top" 
-                 Width="120"/>
 
+    <Grid Background="Transparent" 
+          HorizontalAlignment="Left" 
+          Width="800"
+          Height="300" 
+          VerticalAlignment="Center">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="88"/>
+            <ColumnDefinition Width="151*"/>
+            <ColumnDefinition Width="141*"/>
+            <ColumnDefinition Width="270*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Border Background="AliceBlue"
+                Grid.Column="3">
+            <Border.Clip>
+                <RectangleGeometry RadiusX="10"
+                                   RadiusY="10"
+                                   Rect="0,0,135,40"/>
+            </Border.Clip>
+            <Button Content="Button" 
+                Margin="2,5,7,5" 
+                Command="{Binding ConvertToken}"
+                Grid.Column="3"
+                    Background="Transparent"
+                    BorderThickness="0"/>
+        </Border>
+
+        <Border Background="AliceBlue">
+            <Border.Clip>
+                <RectangleGeometry RadiusX="10"
+                                   RadiusY="10"
+                                   Rect="0,0,135,40"/>
+            </Border.Clip>
+            <TextBox Text="{Binding FirstToken}" 
+                     Grid.Column="0"
+                     Margin="0,5,16,5"
+                     BorderThickness="0"
+                     Background="Transparent"
+                     TextAlignment="Center"
+                     FontSize="15"/>
+        </Border>
+
+        <Border Background="AliceBlue"
+                Grid.Column="1">
+            <Border.Clip>
+                <RectangleGeometry RadiusX="10"
+                                   RadiusY="10"
+                                   Rect="0,0,74,40"/>
+            </Border.Clip>
+            <TextBox Text="{Binding FirstValueToken}" 
+                     Grid.Column="1"
+                     Margin="0,5,14,5"
+                     BorderThickness="0"
+                     Background="Transparent"
+                     TextAlignment="Center"
+                     FontSize="15"/>
+        </Border>
+
+        <Border Background="AliceBlue"
+                Grid.Column="2">
+            <Border.Clip>
+                <RectangleGeometry RadiusX="10"
+                                   RadiusY="10"
+                                   Rect="0,0,130,40"/>
+            </Border.Clip>
+            <TextBox Text="{Binding SecondToken}" 
+                     Grid.Column="2" 
+                     Margin="0,5,22,5"
+                     Background="Transparent"
+                     BorderThickness="0"
+                     TextAlignment="Center"
+                     FontSize="15"/>
+        </Border>
+
+        <Border Background="AliceBlue"
+                Grid.Column="4">
+            <Border.Clip>
+                <RectangleGeometry RadiusX="10"
+                                   RadiusY="10"
+                                   Rect="0,0,270,40"/>
+            </Border.Clip>
+            <TextBlock Text="{Binding ConvertToken}" 
+                       Grid.Column="4" 
+                       Margin="5"
+                       Background="Transparent"
+                       TextAlignment="Center"/>
+        </Border>
+
+        <lcv:CartesianChart Series="{Binding SeriesCollection}"
+                            Grid.ColumnSpan="5"
+                            Grid.Row="1"/>
     </Grid>
 </UserControl>

@@ -5,58 +5,113 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:tSearcher.Views" xmlns:viewmodels="clr-namespace:tSearcher.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="800">
+             Height="400" 
+             Width="800">
     <UserControl.DataContext>
         <viewmodels:SearchVM/>
     </UserControl.DataContext>
 
-    <Grid Background="Red">
-        <ListBox ItemsSource="{Binding PrintMarkets}" 
-                 Margin="400,10,10,10" d:ItemsSource="{d:SampleData ItemCount=5}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid Width="380">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="{Binding Name}"/>
-                        <TextBlock Text="{Binding QuoteSymbol}"
+    <Grid Background="Transparent">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="209"/>
+            <ColumnDefinition Width="120"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.RowSpan="2"
+                Grid.Column="2"
+                Background="AliceBlue"
+                Margin="10,5,0,5">
+            <Border.Clip>
+                <RectangleGeometry RadiusX="10"
+                                   RadiusY="10"
+                                   Rect="0,0,400,350"/>
+            </Border.Clip>
+
+            <ListBox ItemsSource="{Binding PrintMarkets}"
+                 d:ItemsSource="{d:SampleData ItemCount=5}"
+                 Grid.Column="2"
+                 Grid.RowSpan="2"
+                 Margin="0,0,10,41"
+                 BorderThickness="0"
+                 Background="Transparent" 
+                     Width="451">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Width="380">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="{Binding Name}"/>
+
+                            <TextBlock Text="{Binding QuoteSymbol}"
                                    Grid.Column="1"/>
-                        <TextBlock Text="{Binding QuoteId }"
+
+                            <TextBlock Text="{Binding QuoteId }"
                                    Grid.Column="2"/>
-                        <TextBlock Text="{Binding TokenName}"
+
+                            <TextBlock Text="{Binding TokenName}"
                                    Grid.Column="3"/>
-                        <TextBlock Text="{Binding TokenSymbol}"
+
+                            <TextBlock Text="{Binding TokenSymbol}"
                                    Grid.Column="4"/>
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <TextBox HorizontalAlignment="Left" 
-                 Margin="10,10,0,0" 
-                 TextWrapping="Wrap" 
-                 Text="{Binding TokenToSearch}" 
-                 VerticalAlignment="Top" 
-                 Width="280" 
-                 Height="36"/>
-        <Button Content="Button" 
-                HorizontalAlignment="Left" 
-                Margin="295,10,0,0" 
-                VerticalAlignment="Top" 
-                Width="100" 
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+        </Border>
+
+        <Border Grid.Row="0"
+                Background="AliceBlue"
+                Margin="5">
+            <Border.Clip>
+                <RectangleGeometry RadiusX="10"
+                                   RadiusY="10"
+                                   Rect="0,0,200,36"/>
+            </Border.Clip>
+            <TextBox Text="{Binding TokenToSearch}" 
+                 Height="36"
+                 Width="200"
+                 Margin="0,0,-1,4"
+                 Grid.Column="0"
+                 BorderThickness="0"
+                 Background="Transparent" HorizontalAlignment="Right"/>
+        </Border>
+
+        <Border Background="AliceBlue"
+                Grid.Column="1"
+                Margin="5">
+            <Border.Clip>
+                <RectangleGeometry RadiusX="10"
+                                   RadiusY="10"
+                                   Rect="0,0,104,36"/>
+            </Border.Clip>
+            <Button Content="Button" 
+                Margin="0,0,0,4" 
+                Grid.Column="1" 
+                Command="{Binding SearchButton}"
                 Height="36"
-                Command="{Binding SearchButton}"/>
+                Width="104"
+                    BorderThickness="0"
+                    Background="Transparent" HorizontalAlignment="Left"/>
+        </Border>
+
         <TextBlock HorizontalAlignment="Left" 
                    Margin="10,51,0,0" 
                    TextWrapping="Wrap" 
                    Text="{Binding PrintSearchToken}" 
                    VerticalAlignment="Top" 
                    Width="239" 
-                   Height="31"/>
+                   Height="31" Grid.ColumnSpan="2"/>
 
     </Grid>
 </UserControl>

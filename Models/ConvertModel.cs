@@ -1,10 +1,22 @@
-﻿using System;
+﻿using LiveCharts;
+using MyCryptoApp.Controller;
+using System;
+using System.Threading.Tasks;
 
 namespace tSearcher.Models
 {
     internal class ConvertModel
     {
         JsonModel jsonModel = new();
+        CandleModels candleModels = new();
+
+        public SeriesCollection PrintCandlesGraph(string firstToken, string secondToken)
+        {
+            var Token1 = jsonModel.GetTokenForSearch(firstToken);
+            var Token2 = jsonModel.GetTokenForSearch(secondToken);
+
+            return candleModels.PrintCandles(Token1.FullName.ToLower(), Token2.FullName.ToLower());
+        }
 
         public string TokenConvert(string firstToken, double? firstTokenValue, string secondToken)
         {

@@ -5,36 +5,80 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:tSearcher.Views" xmlns:viewmodels="clr-namespace:tSearcher.ViewModels"
              mc:Ignorable="d" 
-             Height="300" Width="800">
+             Height="400" 
+             Width="800">
     <UserControl.DataContext>
         <viewmodels:HomeVM/>
     </UserControl.DataContext>
 
-    <Grid Background="White">
-        <ListBox ItemsSource="{Binding Tokens}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid Width="800">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" Text="{Binding Number}"/>
-                        <TextBlock Grid.Column="1" Text="{Binding FullName}"/>
-                        <TextBlock Grid.Column="2" Text="{Binding Symbol}"/>
-                        <TextBlock Grid.Column="3" Text="{Binding Price}"/>
-                    </Grid>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <Button Content="Button" 
-                HorizontalAlignment="Left" 
-                Margin="586,238,0,0" 
-                VerticalAlignment="Top"
-                Height="20"
-                Width="184"
-                Command="{Binding UpdateTopTokensButton}"/>
+    <Grid HorizontalAlignment="Center" 
+          Width="800" 
+          Height="400" 
+          VerticalAlignment="Bottom">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="60"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+            <Border Width="600"
+                    Height="300"
+                    Background="AliceBlue">
+                <Border.Clip>
+                    <RectangleGeometry RadiusX="10"
+                                       RadiusY="10"
+                                       Rect="0,0,600,300"/>
+                </Border.Clip>
+                <Grid>
+                    <ListBox ItemsSource="{Binding Tokens}"
+                             Background="Transparent"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                             BorderThickness="0" 
+                             HorizontalAlignment="Center" 
+                             Width="600" 
+                             Height="300" 
+                             VerticalAlignment="Center">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Width="590">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50"/>
+                                        <ColumnDefinition Width="75"/>
+                                        <ColumnDefinition Width="150"/>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="300"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="1" 
+                                               Text="{Binding Number}" 
+                                               Style="{DynamicResource TextBlockInListBox}"/>
+
+                                    <TextBlock Grid.Column="2" 
+                                               Text="{Binding FullName}" 
+                                               Style="{DynamicResource TextBlockInListBox}"/>
+
+                                    <TextBlock Grid.Column="3"
+                                               Text="{Binding Symbol}"
+                                               Style="{DynamicResource TextBlockInListBox}"/>
+
+                                    <TextBlock Grid.Column="4" 
+                                               Text="{Binding Price}" 
+                                               Style="{DynamicResource TextBlockInListBox}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </Border>
+        </StackPanel>
     </Grid>
 </UserControl>

@@ -5,7 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewmodels="clr-namespace:tSearcher.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="tSearcher" 
+        MinHeight="430"
+        Height="450" 
+        MaxHeight="470"
+        MinWidth="750"
+        Width="800"
+        MaxWidth="850"
+        Background="#4fbed6"
+        WindowStyle="ToolWindow">
 
     <Window.DataContext>
         <viewmodels:MainWindowVM/>
@@ -25,35 +33,35 @@
 
         <ContentPresenter Content="{Binding CurrentPage}" 
                           Grid.ColumnSpan="4"
-                          Grid.Row="1"/>
+                          Grid.Row="1"
+                          Opacity="{Binding BorderOpacity}"/>
+                
         <RadioButton Content="Home" 
-                     HorizontalAlignment="Center" 
                      VerticalAlignment="Center" 
-                     Height="40" 
-                     Width="180"
-                     Command="{Binding HomeButton}"/>
-        
+                     Height="50"
+                     Command="{Binding HomeButton}"
+                     Style="{DynamicResource RadioButtonTheme}"
+                     IsChecked="True"/>
+
         <RadioButton Content="Search" 
-                     HorizontalAlignment="Center" 
                      VerticalAlignment="Center" 
-                     Height="40" 
-                     Width="180"
+                     Height="50"
                      Grid.Column="1"
-                     Command="{Binding SearchButton}"/>
-        
+                     Command="{Binding SearchButton}"
+                     Style="{DynamicResource RadioButtonTheme}"/>
+
         <RadioButton Content="Convert" 
-                     HorizontalAlignment="Center" 
                      VerticalAlignment="Center" 
-                     Height="40" 
-                     Width="180"
+                     Height="50"
                      Grid.Column="2"
-                     Command="{Binding ConvertButton}"/>
+                     Command="{Binding ConvertButton}"
+                     Style="{DynamicResource RadioButtonTheme}"/>
 
         <RadioButton Content="Options" 
-                     HorizontalAlignment="Center" 
                      VerticalAlignment="Center" 
-                     Height="40" 
-                     Width="180"
-                     Grid.Column="3"/>
+                     Height="50"
+                     Grid.Column="3"
+                     Command="{Binding OptionsButton}"
+                     Style="{DynamicResource RadioButtonTheme}"/>
     </Grid>
 </Window>
