@@ -18,7 +18,7 @@
                 </Setter.Value>
             </Setter>
 
-            <Setter Property="Background" Value="#051b2e"/>
+            <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="white"/>
             <Setter Property="BorderThickness" Value="0"/>
         </Style.Setters>
@@ -30,10 +30,31 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="GridThemes"
+           TargetType="Grid">
+        <Setter Property="Background" Value="#051b2e"/>
+    </Style>
+    
     <Style x:Key="ButtonTheme"
            TargetType="Button">
         <Setter Property="Background" Value="White"/>
         <Setter Property="Foreground" Value="Black"/>
+    </Style>
+
+
+    <Style x:Key="TextBlockInListBox" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="19"/>
+    </Style>
+
+    <Style x:Key="TopTokenListBox" TargetType="ListBox">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="True">
+                <Setter Property="Background" Value="Gray"/>
+
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
 </ResourceDictionary>

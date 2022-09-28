@@ -1,5 +1,7 @@
 ﻿using LiveCharts;
 using MyCryptoApp.Controller;
+using MyCryptoApp.Models;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Threading.Tasks;
 
@@ -10,22 +12,55 @@ namespace tSearcher.Models
         JsonModel jsonModel = new();
         CandleModels candleModels = new();
 
-        public SeriesCollection PrintCandlesGraph(string firstToken, string secondToken)
+        public string PrintCandlesGraph(string firstToken, string secondToken, out SeriesCollection seriesCollection)
         {
-            var Token1 = jsonModel.GetTokenForSearch(firstToken);
-            var Token2 = jsonModel.GetTokenForSearch(secondToken);
-
-            return candleModels.PrintCandles(Token1.FullName.ToLower(), Token2.FullName.ToLower());
+            seriesCollection = new();
+            if (CheckForNull(firstToken, secondToken, out string err, out Token first, out Token second))
+            {
+                seriesCollection = candleModels.PrintCandles(first.FullName.ToLower(), second.FullName.ToLower(), out string errorMessage);
+                return errorMessage;
+            }
+            else
+            {
+                return default;
+            }
         }
 
-        public string TokenConvert(string firstToken, double? firstTokenValue, string secondToken)
+        public string TokenConvert(string firstToken, double? firstTokenValue, string secondToken, out bool isOK)
         {
-            var first = jsonModel.GetTokenForSearch(firstToken);
-            var second = jsonModel.GetTokenForSearch(secondToken);
+            isOK = false;
+            if(CheckForNull(firstToken, secondToken, out string errorMessage, out Token first, out Token second))
+            {
+                double? res = (first.Price - (first.Price / 100 * 5)) * firstTokenValue / second.Price;
 
-            double? res = (first.Price - (first.Price / 100 * 5)) * firstTokenValue / second.Price;
+                isOK = true;
+                return Math.Round((double)res, 4).ToString();
+            }
+            else
+            {
+                return errorMessage;
+            }
 
-            return Math.Round((double)res, 4).ToString();
+        }
+
+        private bool CheckForNull(string firstToken, string secondToken, out string errorMessage, out Token first, out Token second)
+        {
+            errorMessage = string.Empty;
+            first = jsonModel.GetTokenForSearch(firstToken);
+            second = jsonModel.GetTokenForSearch(secondToken);
+
+            if (first.FullName == null)
+            {
+                errorMessage = $"{firstToken ?? "First token"} is not found.";
+                return false;
+            }
+            else if (second.FullName == null)
+            {
+                errorMessage = $"{secondToken ?? "Second token"} is not found.";
+                return false;
+            }
+            
+            return true;
         }
     }
 }

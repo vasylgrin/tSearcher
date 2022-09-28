@@ -11,21 +11,62 @@
         <viewmodels:OptionsVM/>
     </UserControl.DataContext>
     <Grid>
-        <Button Content="Button" 
-                HorizontalAlignment="Left" 
-                Margin="10,10,0,0" 
-                VerticalAlignment="Top" 
-                Height="26" 
-                Width="175" 
-                Click="Button_Click"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+
+        <Border Background="AliceBlue"
+                Grid.Row="0"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                Height="30"
+                Width="100">
+            <Border.Clip>
+                <RectangleGeometry RadiusX="10"
+                                   RadiusY="10"
+                                   Rect="0,0,100,30"/>
+            </Border.Clip>
+            <TextBlock Grid.Row="0"
+                       Text="Themes"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
+        </Border>
         
-        <Button Content="Button" 
-                HorizontalAlignment="Left" 
-                Margin="10,41,0,0" 
-                VerticalAlignment="Top" 
-                Width="175" 
-                Height="26"
-                Click="Button_Click_1"/>
-        
+        <Border Background="AliceBlue"
+                Grid.Row="1"
+                Margin="8,5,8,5">
+            <Border.Clip>
+                <RectangleGeometry RadiusX="10"
+                                   RadiusY="10"
+                                   Rect="0,0,240,35"/>
+            </Border.Clip>
+            <Button Content="Light"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Click="Button_Click" Margin="0,0,0,5"/>
+        </Border>
+
+        <Border Background="AliceBlue"
+                Grid.Row="2"
+                Margin="8,5,8,5">
+            <Border.Clip>
+                <RectangleGeometry RadiusX="10"
+                                   RadiusY="10"
+                                   Rect="0,0,240,35"/>
+            </Border.Clip>
+
+            <Button Content="Button"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Click="Button_Click_1" Margin="0,0,0,5"/>
+        </Border>
     </Grid>
 </UserControl>

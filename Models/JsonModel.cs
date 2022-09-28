@@ -18,7 +18,7 @@ namespace tSearcher.Models
 
             for (int count = 0; count < amountOfTokens; count++)
             {
-                Token tkn = new(Convert.ToInt32(jToken[count]["rank"]), jToken[count]["id"].ToString(), jToken[count]["symbol"].ToString(), Convert.ToDouble(jToken[count]["priceUsd"]));
+                Token tkn = new(Convert.ToInt32(jToken[count]["rank"]), jToken[count]["id"].ToString(), jToken[count]["symbol"].ToString(), Math.Round(Convert.ToDouble(jToken[count]["priceUsd"]),4));
                 Tokens.Add(tkn);
             }
 
@@ -27,8 +27,15 @@ namespace tSearcher.Models
 
         public Token GetTokenForSearch(string searchToken)
         {
-            var jToken = GetRequest("https://api.coincap.io/v2/assets");
+            var jToken = GetRequest("https://api.coincap.io/v2/assets").ToList();
+            
             Token token = new();
+            
+            if(string.IsNullOrWhiteSpace(searchToken))
+                return token;
+            if (jToken.Count == 0)
+                return token;
+
 
             GetRequest("https://api.coincap.io/v2/assets").Where(tkn => tkn["id"].ToString().ToUpper() == searchToken.ToUpper() || tkn["symbol"].ToString().ToUpper() == searchToken.ToUpper())
                 .ToList()

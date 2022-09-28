@@ -1,6 +1,8 @@
 ﻿using LiveCharts;
 using MyCryptoApp.Controller;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using tSearcher.Models;
 
@@ -32,13 +34,17 @@ namespace tSearcher.ViewModels
             {
                 return new DelegateCommand(async (obj) =>
                 {
-                    PrintConvertToken = convertModel.TokenConvert(FirstToken, FirstValueToken, SecondToken);
-                    SeriesCollection.Clear();
-                    SeriesCollection = convertModel.PrintCandlesGraph(FirstToken, SecondToken);
-                    YFormatter = value => value.ToString("C");
+                    PrintConvertToken = convertModel.TokenConvert(FirstToken, FirstValueToken, SecondToken, out bool isOk);
+                    
+                    if (isOk)
+                    {
+                        SlowPrint(convertModel.PrintCandlesGraph(FirstToken, SecondToken, out SeriesCollection seriesCollection));
+                        SeriesCollection = seriesCollection;
+                        YFormatter = value => value.ToString("C");
+                    }
                 });
             }
 
-        }
+        }    
     }
 }

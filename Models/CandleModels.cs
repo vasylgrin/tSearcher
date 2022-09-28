@@ -27,14 +27,19 @@ namespace MyCryptoApp.Controller
         /// <param name="baseId">Name of the main token.</param>
         /// <param name="quoteId">Сurrency token.</param>
         /// <param name="seriesCollection">The result of the graph.</param>
-        public SeriesCollection PrintCandles(string baseId, string? quoteId)
+        public SeriesCollection PrintCandles(string baseId, string? quoteId, out string errorMessage)
         {
+            errorMessage = "";
+            
             if (string.IsNullOrWhiteSpace(baseId) || string.IsNullOrWhiteSpace(quoteId))
             {
                 return default;
             }
 
-            AddCandle(baseId, quoteId);
+            if(AddCandle(baseId, quoteId, out errorMessage))
+            {
+                return new SeriesCollection();
+            }
 
             SeriesCollection _seriesCollection = new SeriesCollection
                 {
@@ -69,9 +74,16 @@ namespace MyCryptoApp.Controller
         /// </summary>
         /// <param name="baseId">Name of the main token.</param>
         /// <param name="quoteId">Сurrency token.</param>
-        private void AddCandle(string? baseId, string? quoteId)
+        private bool AddCandle(string? baseId, string? quoteId, out string errorMessage)
         {
+            errorMessage = "";
             var candles = GetAllCandles(baseId, quoteId);
+
+            if (candles.Count == 0)
+            {
+                errorMessage = "Candle not found.";
+                return true;
+            }
 
             EMA ind0 = new(20);
             EMA ind1 = new(10);
@@ -86,6 +98,7 @@ namespace MyCryptoApp.Controller
 
                 val2.Add(new OhlcPoint(candles[i].Open, candles[i].High, candles[i].Low, candles[i].Close));
             }
+            return false;
         }
 
         /// <summary>

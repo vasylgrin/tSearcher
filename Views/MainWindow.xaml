@@ -12,14 +12,14 @@
         MinWidth="750"
         Width="800"
         MaxWidth="850"
-        Background="#4fbed6"
+        Background="Transparent"
         WindowStyle="ToolWindow">
 
     <Window.DataContext>
         <viewmodels:MainWindowVM/>
     </Window.DataContext>
 
-    <Grid>
+    <Grid Style="{DynamicResource GridThemes}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
