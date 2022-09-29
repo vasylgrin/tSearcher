@@ -23,10 +23,10 @@ namespace tSearcher.ViewModels
             }
         }
 
-        private void GetTokens()
+        private async void GetTokens()
         {
             Tokens.Clear();
-            Tokens = new JsonModel().GetTopToken(10);
+            Tokens = await new JsonModel().GetTopToken(10);
         }
     }
 }

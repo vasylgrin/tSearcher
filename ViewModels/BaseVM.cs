@@ -19,7 +19,6 @@ namespace tSearcher.ViewModels
             get { return _borderOpacity; }
             set { _borderOpacity = value; OnPropertyChanged(); }
         }
-
         public object PrintObject
         {
             get { return _printText; }
@@ -33,7 +32,7 @@ namespace tSearcher.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
 
-        protected async void SlowPrint(object print)
+        protected async Task SlowPrint(object print)
         {
             await Task.Factory.StartNew(() =>
             {

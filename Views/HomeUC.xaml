@@ -16,7 +16,7 @@
           Height="400" 
           VerticalAlignment="Bottom">
         <Grid.RowDefinitions>
-            <RowDefinition Height="10"/>
+            <RowDefinition Height="29"/>
             <RowDefinition/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
@@ -26,11 +26,29 @@
             <ColumnDefinition Width="60"/>
         </Grid.ColumnDefinitions>
 
+        <StackPanel Grid.Column="1">
+            <Border Background="LightBlue"
+                    Height="30"
+                    Width="150">
+                <Border.Clip>
+                    <RectangleGeometry RadiusX="10"
+                                       RadiusY="10"
+                                       Rect="0,0,150,29"/>
+                </Border.Clip>
+
+                <TextBlock Text="Top 10 currency token"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="15"
+                       Foreground="Black"/>
+            </Border>
+        </StackPanel>
+
         <StackPanel Orientation="Horizontal"
                     Grid.Row="1"
                     Grid.Column="1"
                     VerticalAlignment="Center"
-                    HorizontalAlignment="Center">
+                    HorizontalAlignment="Center" Height="300" Width="600">
             <Border Width="600"
                     Height="300"
                     Background="AliceBlue">

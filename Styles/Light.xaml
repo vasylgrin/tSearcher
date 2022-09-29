@@ -36,12 +36,6 @@
         <Setter Property="Background" Value="#4fbed6"/>
     </Style>
 
-    <Style x:Key="ButtonTheme"
-           TargetType="Button">
-        <Setter Property="Background" Value="Black"/>
-        <Setter Property="Foreground" Value="White"/>
-    </Style>
-
     <Style x:Key="TextBlock"
            TargetType="TextBlock">
         <Setter Property="FontSize" Value="20"/>

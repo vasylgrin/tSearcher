@@ -6,10 +6,6 @@
              xmlns:local="clr-namespace:tSearcher.Views" xmlns:viewmodels="clr-namespace:tSearcher.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-
-    <UserControl.DataContext>
-        <viewmodels:OptionsVM/>
-    </UserControl.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -23,7 +19,7 @@
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
 
-        <Border Background="AliceBlue"
+        <Border Background="LightBlue"
                 Grid.Row="0"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"

@@ -21,14 +21,12 @@ namespace MyCryptoApp.Controller
 
         #endregion
 
-        /// <summary>
-        /// Output of candles on the chart.
-        /// </summary>
-        /// <param name="baseId">Name of the main token.</param>
-        /// <param name="quoteId">Сurrency token.</param>
-        /// <param name="seriesCollection">The result of the graph.</param>
         public SeriesCollection PrintCandles(string baseId, string? quoteId, out string errorMessage)
         {
+            val0.Clear();
+            val1.Clear();
+            val2.Clear();
+
             errorMessage = "";
             
             if (string.IsNullOrWhiteSpace(baseId) || string.IsNullOrWhiteSpace(quoteId))
@@ -41,7 +39,11 @@ namespace MyCryptoApp.Controller
                 return new SeriesCollection();
             }
 
-            SeriesCollection _seriesCollection = new SeriesCollection
+            SeriesCollection seriesCollection = new();
+
+            System.Windows.Application.Current.Dispatcher.Invoke(() =>
+            {
+                seriesCollection = new SeriesCollection
                 {
                 new LineSeries
                 {
@@ -65,15 +67,11 @@ namespace MyCryptoApp.Controller
                     Values = val2
                 }
                 };
+            });
 
-            return _seriesCollection;
+            return seriesCollection;
         }
 
-        /// <summary>
-        /// We choose the number of candles and add them to the collection.
-        /// </summary>
-        /// <param name="baseId">Name of the main token.</param>
-        /// <param name="quoteId">Сurrency token.</param>
         private bool AddCandle(string? baseId, string? quoteId, out string errorMessage)
         {
             errorMessage = "";
@@ -88,7 +86,7 @@ namespace MyCryptoApp.Controller
             EMA ind0 = new(20);
             EMA ind1 = new(10);
 
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 40; i++)
             {
                 ind0.Add(candles[i].Close);
                 ind1.Add(candles[i].Close);
@@ -101,11 +99,6 @@ namespace MyCryptoApp.Controller
             return false;
         }
 
-        /// <summary>
-        /// Getting all the candles for two tokens.
-        /// </summary>
-        /// <param name="baseId">Name of the main token.</param>
-        /// <param name="quoteId">Сurrency token.</param>
         private List<Candles> GetAllCandles(string? baseId, string? quoteId)
         {
             List<Candles> candles = new();
@@ -120,5 +113,4 @@ namespace MyCryptoApp.Controller
             return candles;
         }
     }
-
 }

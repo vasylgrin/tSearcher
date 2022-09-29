@@ -34,13 +34,38 @@ namespace tSearcher.ViewModels
             {
                 return new DelegateCommand(async (obj) =>
                 {
-                    PrintConvertToken = convertModel.TokenConvert(FirstToken, FirstValueToken, SecondToken, out bool isOk);
-                    
-                    if (isOk)
+                    if (string.IsNullOrWhiteSpace(FirstToken))
                     {
-                        SlowPrint(convertModel.PrintCandlesGraph(FirstToken, SecondToken, out SeriesCollection seriesCollection));
-                        SeriesCollection = seriesCollection;
+                        PrintConvertToken = "First token can not to be null.";
+                        return;
+                    }
+                    else if (string.IsNullOrWhiteSpace(SecondToken))
+                    {
+                        PrintConvertToken = "Second token can not to be null.";
+                        return;
+                    }
+                    
+                    var text = await convertModel.TokenConvert(FirstToken, FirstValueToken, SecondToken);
+
+                    if (string.IsNullOrWhiteSpace(text))
+                    {
+                        PrintConvertToken = convertModel.ErrorMessage;
+                        return;
+                    }
+
+                    PrintConvertToken = text;
+
+                    await convertModel.PrintCandlesGraph(FirstToken, SecondToken);
+                    
+                    if(convertModel.SeriesCollection.Count != 0)
+                    {
+                        SeriesCollection = convertModel.SeriesCollection;
                         YFormatter = value => value.ToString("C");
+                    }
+                    else if(convertModel.ErrorMessage.Contains("Candle not found"))
+                    {
+                        await SlowPrint(convertModel.ErrorMessage);
+                        convertModel.ErrorMessage = string.Empty;
                     }
                 });
             }

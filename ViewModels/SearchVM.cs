@@ -28,18 +28,26 @@ namespace tSearcher.ViewModels
         {
             get
             {
-                return new DelegateCommand(obj =>
+                return new DelegateCommand(async obj =>
                 {
-                    var token = jsonController.GetTokenForSearch(TokenToSearch);
-                    if (!string.IsNullOrWhiteSpace(token.FullName))
+                    if (string.IsNullOrWhiteSpace(TokenToSearch))
                     {
-                        SlowPrint(token.ToString());
+                        await SlowPrint($"Enter token for search");
+                        return;
+                    }
+                    
+                    jsonController.Token = null;
+                    await jsonController.GetTokenForSearch(TokenToSearch);
+                    
+                    if (jsonController.Token != null)
+                    {
+                        SlowPrint(jsonController.Token.ToString());
                         PrintMarkets.Clear();
-                        PrintMarkets = jsonController.GetMarkets(token.FullName.ToLower());
+                        PrintMarkets = await jsonController.GetMarkets(jsonController.Token.FullName.ToLower());
                     }
                     else
                     {
-                        SlowPrint($"{TokenToSearch} is not found");
+                        await SlowPrint($"{TokenToSearch} is not found");
                         printMarkets.Clear();
                     }
                 });

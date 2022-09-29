@@ -5,59 +5,66 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace tSearcher.Models
 {
     internal class JsonModel
     {
-        public ObservableCollection<Token> GetTopToken(int amountOfTokens)
+        public Token Token { get; set; }
+
+        public async Task<ObservableCollection<Token>> GetTopToken(int amountOfTokens)
         {
             ObservableCollection<Token> Tokens = new();
 
-            var jToken = GetRequest("https://api.coincap.io/v2/assets");
-
-            for (int count = 0; count < amountOfTokens; count++)
+            await Task.Run(() =>
             {
-                Token tkn = new(Convert.ToInt32(jToken[count]["rank"]), jToken[count]["id"].ToString(), jToken[count]["symbol"].ToString(), Math.Round(Convert.ToDouble(jToken[count]["priceUsd"]),4));
-                Tokens.Add(tkn);
-            }
+                var jToken = GetRequest("https://api.coincap.io/v2/assets");
+
+                for (int count = 0; count < amountOfTokens; count++)
+                {
+                    Token tkn = new(Convert.ToInt32(jToken[count]["rank"]), jToken[count]["id"].ToString(), jToken[count]["symbol"].ToString(), Math.Round(Convert.ToDouble(jToken[count]["priceUsd"]), 4));
+                    Tokens.Add(tkn);
+                }
+            });
 
             return Tokens;
         }
 
-        public Token GetTokenForSearch(string searchToken)
+        public async Task GetTokenForSearch(string searchToken)
         {
-            var jToken = GetRequest("https://api.coincap.io/v2/assets").ToList();
-            
-            Token token = new();
-            
-            if(string.IsNullOrWhiteSpace(searchToken))
-                return token;
-            if (jToken.Count == 0)
-                return token;
+            await Task.Run(() =>
+            {
+                var jToken = GetRequest("https://api.coincap.io/v2/assets").ToList();
 
+                if (string.IsNullOrWhiteSpace(searchToken))
+                    return;
+                if (jToken.Count == 0)
+                    return;
 
-            GetRequest("https://api.coincap.io/v2/assets").Where(tkn => tkn["id"].ToString().ToUpper() == searchToken.ToUpper() || tkn["symbol"].ToString().ToUpper() == searchToken.ToUpper())
-                .ToList()
-                .ForEach(tkn =>
-                {
-                    token = new Token(Convert.ToInt32(tkn["rank"]), tkn["id"].ToString(), tkn["symbol"].ToString(), Convert.ToDouble(tkn["priceUsd"]));
-                });
-
-            return token;
+                GetRequest("https://api.coincap.io/v2/assets").Where(tkn => tkn["id"].ToString().ToUpper() == searchToken.ToUpper() || tkn["symbol"].ToString().ToUpper() == searchToken.ToUpper())
+                    .ToList()
+                    .ForEach(tkn =>
+                    {
+                        Token = new Token(Convert.ToInt32(tkn["rank"]), tkn["id"].ToString(), tkn["symbol"].ToString(), Convert.ToDouble(tkn["priceUsd"]));
+                    });
+            });
         }
 
-        public ObservableCollection<Market> GetMarkets(string currentToken)
+        public async Task<ObservableCollection<Market>> GetMarkets(string currentToken)
         {
             ObservableCollection<Market> markets = new();
 
-            GetRequest($"https://api.coincap.io/v2/assets/{currentToken}/markets")
+            await Task.Run(() =>
+            {
+                GetRequest($"https://api.coincap.io/v2/assets/{currentToken}/markets")
                 .Where(mkt => mkt["baseId"].ToString().ToUpper() == currentToken.ToUpper() || mkt["baseSymbol"].ToString().ToUpper() == currentToken.ToUpper())
                 .ToList()
                 .ForEach(mkt =>
                 {
                     markets.Add(new Market(mkt["exchangeId"].ToString(), mkt["baseId"].ToString(), mkt["baseSymbol"].ToString(), Math.Round(Convert.ToDouble(mkt["priceUsd"]), 4), mkt["quoteId"].ToString(), mkt["quoteSymbol"].ToString()));
                 });
+            });
 
             return markets;
         }

@@ -3,7 +3,9 @@ using MyCryptoApp.Controller;
 using MyCryptoApp.Models;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace tSearcher.Models
 {
@@ -12,55 +14,44 @@ namespace tSearcher.Models
         JsonModel jsonModel = new();
         CandleModels candleModels = new();
 
-        public string PrintCandlesGraph(string firstToken, string secondToken, out SeriesCollection seriesCollection)
+        public SeriesCollection SeriesCollection { get; set; } = new();
+        public string? ErrorMessage { get; set; }
+
+        List<Token> Tokens = new();
+
+        public async Task PrintCandlesGraph(string firstToken, string secondToken)
         {
-            seriesCollection = new();
-            if (CheckForNull(firstToken, secondToken, out string err, out Token first, out Token second))
-            {
-                seriesCollection = candleModels.PrintCandles(first.FullName.ToLower(), second.FullName.ToLower(), out string errorMessage);
-                return errorMessage;
-            }
-            else
-            {
-                return default;
-            }
+            SeriesCollection = candleModels.PrintCandles(Tokens[0].FullName.ToLower(), Tokens[1].FullName.ToLower(), out string errorMessage);
+            ErrorMessage = errorMessage;
+            Tokens.Clear();
         }
 
-        public string TokenConvert(string firstToken, double? firstTokenValue, string secondToken, out bool isOK)
+        public async Task<string> TokenConvert(string firstToken, double? firstTokenValue, string secondToken)
         {
-            isOK = false;
-            if(CheckForNull(firstToken, secondToken, out string errorMessage, out Token first, out Token second))
-            {
-                double? res = (first.Price - (first.Price / 100 * 5)) * firstTokenValue / second.Price;
+            if(await Gettoken(firstToken) || await Gettoken(secondToken))
+                return null;
 
-                isOK = true;
-                return Math.Round((double)res, 4).ToString();
-            }
-            else
-            {
-                return errorMessage;
-            }
+            double? res = (Tokens[0].Price - (Tokens[0].Price / 100 * 5)) * firstTokenValue / Tokens[1].Price;
 
+            return Math.Round((double)res, 4).ToString();
         }
 
-        private bool CheckForNull(string firstToken, string secondToken, out string errorMessage, out Token first, out Token second)
+        private async Task<bool> Gettoken(string token)
         {
-            errorMessage = string.Empty;
-            first = jsonModel.GetTokenForSearch(firstToken);
-            second = jsonModel.GetTokenForSearch(secondToken);
-
-            if (first.FullName == null)
-            {
-                errorMessage = $"{firstToken ?? "First token"} is not found.";
-                return false;
-            }
-            else if (second.FullName == null)
-            {
-                errorMessage = $"{secondToken ?? "Second token"} is not found.";
-                return false;
-            }
+            await jsonModel.GetTokenForSearch(token);
             
-            return true;
+            if(jsonModel.Token != null)
+            {
+                Tokens.Add(jsonModel.Token);
+                jsonModel.Token = null;
+                return false;
+            }
+            else
+            {
+                ErrorMessage = $"{token} can not be empty";
+                jsonModel.Token = null;
+                return true;
+            }       
         }
     }
 }
